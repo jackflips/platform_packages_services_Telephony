@@ -1413,6 +1413,13 @@ public class CarrierConfigLoader extends ICarrierConfigLoader.Stub {
                 retConfig.putAll(mNoSimConfig);
             }
         }
+
+        // Force single registration for RCS. GCarrierSettings bundled configs don't include
+        // this key — it's only set via server-downloaded configs which require full GMS.
+        // Without this, RCS falls back to dual registration which fails on most US carriers.
+        retConfig.putBoolean(
+                CarrierConfigManager.Ims.KEY_IMS_SINGLE_REGISTRATION_REQUIRED_BOOL, true);
+
         return retConfig;
     }
 
